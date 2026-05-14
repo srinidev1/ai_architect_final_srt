@@ -8,14 +8,13 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from functools import lru_cache
 from openai import AzureOpenAI
-from utils.models import response_generator_llm
+from utils.models import response_generator_llm,get_response_generator_llm_model
 
 load_dotenv(override=True)
 
 RETRIEVAL_K = int(os.getenv('RETRIEVAL_K', 5))
 EMBEDDING_MODEL = os.getenv('EMBEDDING_MODEL', 'all-MiniLM-L6-v2')
 DB_NAME = str(Path(__file__).parent.parent / "data/vector_store")
-DIAL_MODEL =  os.getenv('AZURE_MODEL', "gpt-4")
 
 SECURED_SYSTEM_PROMPT = """
 You are a knowledgeable, friendly assistant representing the Delaware annual report filings.
@@ -95,7 +94,7 @@ def search_filings(question: str, history: list[dict]) -> str:
 
     response = response_generator_llm.chat.completions.create(
             messages=messages,            
-            model=DIAL_MODEL
+            model=get_response_generator_llm_model()
     )    
 
     return response.choices[0].message.content

@@ -1,7 +1,7 @@
 import streamlit as st
 from uirouter import set_page,get_page
 from mcp_client.tool_executor import initialize_mcp
-from views import chatview
+from views import chatview,evaluationview
 
 def init_view():
 
@@ -43,6 +43,6 @@ def init_view():
     if page == "Chat Assistant":
         chatview.render()
     elif page == "evaluation":
-        st.write("evaulation view")
+        evaluationview.render()
 
 init_view()        

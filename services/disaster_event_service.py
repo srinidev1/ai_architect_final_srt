@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from functools import lru_cache
 from openai import AzureOpenAI
-from utils.models import response_generator_llm
+from utils.models import response_generator_llm,get_response_generator_llm_model
 from datasets import load_dataset
 #import pandas as pd
 import kagglehub
@@ -51,8 +51,6 @@ RESPONSE_SYSTEM_PROMPT = """
     Keep response concise but informative.
 
 """
-DIAL_MODEL =  os.getenv('AZURE_MODEL', "gpt-4")
-
 def search_events(question: str, history: list[dict]) -> str:
     download_disaster_events()
     #convert to query
@@ -73,7 +71,7 @@ def search_events(question: str, history: list[dict]) -> str:
 
     response = response_generator_llm.chat.completions.create(
             messages=messages,            
-            model=DIAL_MODEL
+            model=get_response_generator_llm_model()
     )    
 
     return response.choices[0].message.content
@@ -86,7 +84,7 @@ def nl_to_pandas_query(question:str) -> str:
 
     response = response_generator_llm.chat.completions.create(
             messages=messages,            
-            model=DIAL_MODEL
+            model=get_response_generator_llm_model()
     )
 
     return response.choices[0].message.content

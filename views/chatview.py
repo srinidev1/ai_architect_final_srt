@@ -38,7 +38,7 @@ def _init_page_config():
 
     st.title("AI Assistant")
     st.divider()
-    st.caption("Chat with your AI assistant powered by Annual Report Knowledge Base.")
+    st.caption("Chat with your AI assistant powered by Annual Report Knowledge Base, Weather and Natural Disaster events.")
     with st.expander("💡 Example questions", expanded=False):
         examples = [
             ("What's Non-stock corporations franchise tax?", "What's Non-stock corporations franchise tax?"),

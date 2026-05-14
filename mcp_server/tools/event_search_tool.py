@@ -27,10 +27,11 @@ def query_events(query: str) -> str:
         query: A pandas query string e.g. "Year == 2010 and Disaster Type == 'Earthquake'"
     
     Returns:
-        JSON string of matching disaster records (max 10 rows)
+        JSON string of matching disaster records 
     """
     df = get_dataframe()
-    results = df.query(query).head(10).to_dict(orient="records")
+    #results = df.query(query).head(25).to_dict(orient="records")
+    results = df.query(query).to_dict(orient="records")
 
     if not results:
         return json.dumps({"message": "No records found for the given query", "data": []})

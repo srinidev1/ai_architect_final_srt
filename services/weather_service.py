@@ -1,12 +1,10 @@
 import os
 from dotenv import load_dotenv
 from mcp_client.tool_executor import get_tools_format,handle_tool_call
-from utils.models import response_generator_llm
+from utils.models import response_generator_llm,get_response_generator_llm_model
 import json
 
 load_dotenv(override=True)
-
-DIAL_MODEL =  os.getenv('AZURE_MODEL', "gpt-4")
 
 system_message = """
     You are a helpful weather assistant. you have access to a tools that can provide weather information.
@@ -27,7 +25,7 @@ def fetch_weather_response(question: str,history: list[dict]) -> str:
 
     response = response_generator_llm.chat.completions.create(
             messages=messages,            
-            model=DIAL_MODEL,
+            model=get_response_generator_llm_model(),
             tools= get_tools_format()
     )    
 
@@ -38,7 +36,7 @@ def fetch_weather_response(question: str,history: list[dict]) -> str:
         messages.append(response)
         response = response_generator_llm.chat.completions.create(
             messages=messages,            
-            model=DIAL_MODEL
+            model=get_response_generator_llm_model()
     )    
 
     return response.choices[0].message.content
